@@ -1,6 +1,9 @@
 # UB_Test_Rlozano
 Repositorio dedicado a la materia Testing
 
+# Para instalar las dependecias del proyecto se debe correr el siguiente comando
+pip install -r requirements.txt
+
 # 00_Python_Test
 Para testear las funciones dentro de esta carpeta se debe hacer de la siguiente forma:
 TODO: Desde la terminal ejecutaremos "python -m doctest "nombre_del_archivo"   ==> Si todo sale OK no mostrara nada, si algo falla nos mostrara el error
