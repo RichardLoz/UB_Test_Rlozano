@@ -1,5 +1,5 @@
 import pytest
-from main import suma, numMayor, login
+from main import suma, numMayor, login, usuarios
 
 def test_suma():
     assert suma(10,20) == 30
@@ -45,3 +45,17 @@ def test_login():
 def test_login_param(username, password, expected):
     assert login(username, password) == expected
     
+    
+#Test DB_usuarios
+#Compruebo la lista de usuarios
+def test_usuarios():
+    assert usuarios() == ["rlozano", "pepito", "juancito", "manolito"]
+    
+#Compruebo que no haya usuarios vacios
+def test_usuarios_len():
+    for usuario in usuarios():
+        assert len(usuario) > 0
+
+#Compruebo un usuarios especifico
+def test_usuarios_especifico():
+    assert "rlozano" in usuarios()

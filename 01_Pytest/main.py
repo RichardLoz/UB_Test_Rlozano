@@ -11,3 +11,8 @@ def login(username, password):
     else:
         return False
         
+
+def usuarios():
+    usuarios = ["rlozano", "pepito","juancito","manolito"]
+    return usuarios
+
