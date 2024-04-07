@@ -1,5 +1,7 @@
 import pytest
+import sqlite3
 from main import suma, numMayor, login, usuarios
+from DB_alumnos import insert_alumnos
 
 def test_suma():
     assert suma(10,20) == 30
@@ -46,7 +48,7 @@ def test_login_param(username, password, expected):
     assert login(username, password) == expected
     
     
-#Test DB_usuarios
+#Test usuarios
 #Compruebo la lista de usuarios
 def test_usuarios():
     assert usuarios() == ["rlozano", "pepito", "juancito", "manolito"]
@@ -59,3 +61,29 @@ def test_usuarios_len():
 #Compruebo un usuarios especifico
 def test_usuarios_especifico():
     assert "rlozano" in usuarios()
+    
+#TODO: Test DB Alumnos
+def test_DB_alumnos():
+     # Insertar un usuario
+    insert_alumnos('Juan', 25)
+    
+    # Conectar a la base de datos y verificar que el usuario se haya insertado
+    conn = sqlite3.connect('Facultad.db')
+    cursor = conn.cursor()
+    cursor.execute('SELECT * FROM alumnos WHERE nombre=? AND edad=?', ('Juan', 25))
+    resultado = cursor.fetchall()
+    conn.close()
+    
+    # Verificar que se haya encontrado el usuario
+    assert resultado, "El usuario no se registro"
+    
+def test_DB_alumnos_especifico():
+     # Conectar a la base de datos y verificar si el usuario se encuentra en la tabla
+    conn = sqlite3.connect('Facultad.db')
+    cursor = conn.cursor()
+    cursor.execute('SELECT * FROM alumnos WHERE nombre=? AND edad=?', ('Ismael', 25))  # Buscamos 'Pedro' en lugar de 'Juan'
+    resultado = cursor.fetchall()
+    conn.close()
+    
+    # Verificar si el usuario se encuentra en la tabla
+    assert resultado, "El alumno no se encuentra en la base de datos"
