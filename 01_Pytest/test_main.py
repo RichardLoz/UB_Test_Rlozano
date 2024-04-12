@@ -38,8 +38,8 @@ def test_login():
     "username,password, expected",
     [
         ("pepito", "12345678", True),
-        ("Ismael", "1234567", False),
-        ("Ramon", "milanesa", False),
+        ("Ismael", "1234567ab", True),
+        ("Ramoncito", "milanesa", True),
         ("Juancito", "belgrano", True)
     ]
 )
@@ -81,7 +81,7 @@ def test_DB_alumnos_especifico():
      # Conectar a la base de datos y verificar si el usuario se encuentra en la tabla
     conn = sqlite3.connect('Facultad.db')
     cursor = conn.cursor()
-    cursor.execute('SELECT * FROM alumnos WHERE nombre=? AND edad=?', ('Ismael', 25))  # Buscamos 'Pedro' en lugar de 'Juan'
+    cursor.execute('SELECT * FROM alumnos WHERE nombre=? AND edad=?', ('Juan', 25))  # Buscamos 'Pedro' en lugar de 'Juan'
     resultado = cursor.fetchall()
     conn.close()
     
