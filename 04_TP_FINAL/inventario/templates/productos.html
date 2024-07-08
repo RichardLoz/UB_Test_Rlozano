@@ -9,8 +9,10 @@ Inventario
             <div class="col-10">
                 <h1>Listado de Productos</h1>
             </div>
-            <div class="col-2 mt-2">
-                <button class="btn btn-info" data-bs-toggle="modal" data-bs-target="#crearModal">Nuevo Producto</button>
+            <div class="col-2 mt-2 d-flex justify-content-end">
+                <!-- Botón de nuevo producto -->
+                <button class="btn btn-info me-2" data-bs-toggle="modal" data-bs-target="#crearModal">Nuevo Producto</button>
+
             </div>
         </div>
     </div>
@@ -35,11 +37,11 @@ Inventario
                     <td>{{ producto.descripcion }}</td>
                     <td>{{ producto.precio }}</td>
                     <td>{{ producto.stock }}</td>
-                    <td>{{ producto.categoria }}</td>
+                    <td>{{ producto.categoria.nombre }}</td>
                     <td>{{ producto.fecha_vencimiento }}</td>
                     <td>
-                        <button class="btn btn-success btn-xs" data-bs-toggle="modal" data-bs-target="#actualizarModal{{producto.id}}">Editar</button>
-                        <button class="btn btn-danger btn-xs" data-bs-toggle="modal" data-bs-target="#eliminarModal{{producto.id}}">Eliminar</button>
+                        <button class="btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#actualizarModal{{ producto.id }}">Editar</button>
+                        <button class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#eliminarModal{{ producto.id }}">Eliminar</button>
                     </td>
                 </tr>
             {% endfor %}
@@ -68,7 +70,7 @@ Inventario
                     </div>
                     <div class="mb-3">
                         <label for="precio" class="form-label">Precio:</label>
-                        <input type="number" name="precio" class="form-control" placeholder="Precio en pesos" required>
+                        <input type="number" name="precio" step="0.01" class="form-control" placeholder="Precio en pesos" required>
                     </div>
                     <div class="mb-3">
                         <label for="stock" class="form-label">Stock:</label>
@@ -99,37 +101,37 @@ Inventario
 
 {% for producto in productos %}
 <!-- Modificar modal producto -->
-<div class="modal fade" id="actualizarModal{{ producto.id}}" tabindex="-1" aria-labelledby="actualizarModalLabel{{ producto.id}}" aria-hidden="true">
+<div class="modal fade" id="actualizarModal{{ producto.id }}" tabindex="-1" aria-labelledby="actualizarModalLabel{{ producto.id }}" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header bg-success text-white">
-                <h5 class="modal-title" id="actualizarModalLabel{{ producto.id}}">Editar Producto</h5>
+                <h5 class="modal-title" id="actualizarModalLabel{{ producto.id }}">Editar Producto</h5>
             </div>
             <div class="modal-body">
                 <form action="{% url 'actualizar_producto' producto.id %}" method="POST" class="form-group">
                     {% csrf_token %}
                     <label for="nombre">Nombre:</label>
-                    <input type="text" name="nombre" class="form-control" value="{{producto.nombre}}">
+                    <input type="text" name="nombre" class="form-control" value="{{ producto.nombre }}" required>
             
                     <label for="descripcion">Descripcion:</label>
-                    <input type="text" name="descripcion" class="form-control" value="{{producto.descripcion}}">
+                    <input type="text" name="descripcion" class="form-control" value="{{ producto.descripcion }}" required>
             
                     <label for="precio">Precio:</label>
-                    <input type="number" name="precio" class="form-control" value="{{producto.precio}}">
+                    <input type="number" name="precio" step="0.01" class="form-control" value="{{ producto.precio }}" required>
             
                     <label for="stock">Stock:</label>
-                    <input type="number" name="stock" class="form-control" value="{{producto.stock}}">
+                    <input type="number" name="stock" class="form-control" value="{{ producto.stock }}" required>
             
                     <label for="categoria">Categoria:</label>
                     <select name="categoria_id" class="form-control">
-                        <option value="{{producto.categoria.id}}">{{producto.categoria}}</option>
+                        <option value="{{ producto.categoria.id }}">{{ producto.categoria.nombre }}</option>
                         {% for categoria in categorias %}
-                            <option value="{{categoria.id}}">{{categoria.nombre}}</option>
+                            <option value="{{ categoria.id }}">{{ categoria.nombre }}</option>
                         {% endfor %}
                     </select>
 
                     <label for="fecha_vencimiento">Fecha de Vencimiento:</label>
-                    <input type="date" name="fecha_vencimiento" class="form-control" value="{{producto.fecha_vencimiento}}" required>
+                    <input type="date" name="fecha_vencimiento" class="form-control" value="{{ producto.fecha_vencimiento }}" required>
             </div>      
         
             <div class="modal-footer">
@@ -142,14 +144,14 @@ Inventario
 </div>
 
 <!-- Eliminar modal producto -->
-<div class="modal fade" id="eliminarModal{{ producto.id}}" tabindex="-1" aria-labelledby="eliminarModalLabel{{ producto.id}}" aria-hidden="true">
+<div class="modal fade" id="eliminarModal{{ producto.id }}" tabindex="-1" aria-labelledby="eliminarModalLabel{{ producto.id }}" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header bg-danger text-white">
-                <h5 class="modal-title" id="eliminarModalLabel{{ producto.id}}">Eliminar Producto</h5>
+                <h5 class="modal-title" id="eliminarModalLabel{{ producto.id }}">Eliminar Producto</h5>
             </div>
             <div class="modal-body">
-                <p>Se va a eliminar el producto: ID: {{producto.id}} - {{producto}}<p>
+                <p>Se va a eliminar el producto: ID: {{ producto.id }} - {{ producto.nombre }}<p>
             </div>      
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
@@ -160,5 +162,3 @@ Inventario
 </div>
 {% endfor %}
 {% endblock %}
-
- 

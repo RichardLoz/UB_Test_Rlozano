@@ -12,8 +12,8 @@ class Categoria(models.Model):
 
 class Producto(models.Model):
     nombre = models.CharField(max_length=255)
-    descripcion = models.CharField(max_length=255)
-    precio = models.IntegerField()
+    descripcion = models.TextField()
+    precio = models.DecimalField(max_digits=10, decimal_places=2)
     stock = models.IntegerField() 
     fecha_vencimiento = models.DateField(null=True, blank=True)
     categoria = models.ForeignKey(Categoria,null=True, on_delete=models.CASCADE)

@@ -9,25 +9,22 @@
 <body>
     <nav class="navbar navbar-expand-lg bg-body-tertiary">
         <div class="container-fluid">
-          <a class="navbar-brand" href="#">UB-Stock</a>
+          <a class="navbar-brand" href="{% if user.is_authenticated %}{% url 'listado_productos' %}{% else %}{% url 'index' %}{% endif %}">UB-Stock</a>
           <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
           </button>
           <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
               <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="#">Inicio</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="#">Productos</a>
+                <a class="nav-link {% if request.path == '/productos/' %}active{% endif %}" href="{% url 'listado_productos' %}">Productos</a>
               </li>
               <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                   ABM
                 </a>
                 <ul class="dropdown-menu">
-                  <li><a class="dropdown-item" href="#">Categorias</a></li>
-                  <li><a class="dropdown-item" href="#">Productos</a></li>
+                  <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#crearModal">Nuevo Producto</a></li>
+
                 </ul>
               </li>
               <li class="nav-item">
@@ -38,10 +35,14 @@
               <input class="form-control me-2" type="search" placeholder="Buscar" aria-label="Search">
               <button class="btn btn-outline-success" type="submit">Buscar</button>
             </form>
+
+            <!-- Mostrar botón de cerrar sesión si el usuario está autenticado -->
+            {% if user.is_authenticated %}
+              <a href="{% url 'logout' %}" class="btn btn-outline-danger ms-3">Cerrar sesión</a>
+            {% endif %}
           </div>
         </div>
       </nav>
-
 
     {% block content %} 
     {% endblock %}
